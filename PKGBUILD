@@ -2,26 +2,28 @@
 # Contributor: David Goodlad <david at goodlad dot ca>
 # Contributor: William Sheldon <tang0th at gmx dot com>
 
-pkgname=ttf-meslo
+pkgname=ttf-meslo-powerline-git
 _pkgname=Meslo
-pkgver=1.2.1
+_gitname=powerline-fonts
+pkgver=20130623
 pkgrel=1
-pkgdesc="Meslo LG is a customized version of Apple's Menlo font (includes DZ version)"
+pkgdesc="Meslo LG is a customized version of Apple's Menlo font (includes DZ version) for usage with the Powerline plugin"
 arch=('any')
-url="http://github.com/andreberg/Meslo-Font"
+url="https://github.com/Lokaltog/powerline-fonts/tree/master/Meslo"
 license=('Apache')
 depends=('fontconfig' 'xorg-font-utils')
-install=ttf-meslo.install
-source=(
-$_pkgname-${pkgver}.zip::https://github.com/andreberg/Meslo-Font/blob/master/dist/v${pkgver}/Meslo%20LG%20v${pkgver}.zip?raw=true
-$_pkgname-${pkgver}-DZ.zip::https://github.com/andreberg/Meslo-Font/blob/master/dist/v${pkgver}/Meslo%20LG%20DZ%20v${pkgver}.zip?raw=true
-)
-sha256sums=('d0bcb7668dda8fa1a0f8162d626adb434c32854e243b5bd52a717cf569af08d0'
-            'e5201a6816281872c23a2b2f43ac91dc8c1f9d91e9f4b82d64e9bfcb769ecb52')
+install=${pkgname}.install
+source=('git://github.com/Lokaltog/powerline-fonts.git')
+sha256sums=('SKIP')
 
-package()
-{
-  install -d $pkgdir/usr/share/fonts/TTF/
-  install -m644 $srcdir/Meslo\ LG\ v$pkgver/*.ttf $pkgdir/usr/share/fonts/TTF/
-  install -m644 $srcdir/Meslo\ LG\ DZ\ v$pkgver/*.ttf $pkgdir/usr/share/fonts/TTF/
+pkgver() {
+  date +%Y%m%d
+}
+
+package() {
+  cd ${_gitname}/${_pkgname}
+  install -d $pkgdir/usr/share/fonts/TTF/${pkgname}
+  install -d $pkgdir/usr/share/licenses/${pkgname}
+  install -m644 *.otf ${pkgdir}/usr/share/fonts/TTF/${pkgname}
+  install -m644 LICENSE.txt ${pkgdir}/usr/share/licenses/${pkgname}
 }
